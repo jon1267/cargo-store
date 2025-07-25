@@ -19,6 +19,8 @@ class DriverResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -38,7 +40,8 @@ class DriverResource extends Resource
                         ->maxLength(255),
                     Forms\Components\DatePicker::make('birth_date'),
                     Forms\Components\FileUpload::make('image')
-                        ->image(),
+                        ->image()
+                        ->directory('cargo'),
                     Forms\Components\Toggle::make('is_active')
                         ->required()
                         ->default(true),
@@ -51,10 +54,7 @@ class DriverResource extends Resource
     {
         return $table
             ->columns([
-                //Tables\Columns\TextColumn::make('full_name')
-                //    ->label('Full Name')
-                //    ->sortable(),
-
+                //Tables\Columns\TextColumn::make('full_name')->label('Full Name')->sortable(),
                 Tables\Columns\TextColumn::make('first_name')
                     ->label('Name')
                     ->sortable()
