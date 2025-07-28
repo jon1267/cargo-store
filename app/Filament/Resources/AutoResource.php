@@ -87,7 +87,12 @@ class AutoResource extends Resource
 
                 Tables\Columns\TextColumn::make('type')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (string $state): ?string => match ($state) {
+                        'bus' => 'info',
+                        'truck' => 'success',
+                        'long_vehicle' => 'warning',
+                    }),
 
                 Tables\Columns\TextColumn::make('description')
                     ->label('Description')
