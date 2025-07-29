@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Trip extends Model
 {
@@ -19,4 +20,14 @@ class Trip extends Model
         'trip_start' => 'datetime',
         'trip_end' => 'datetime',
     ];
+
+    public function driver(): BelongsTo
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
+    public function auto(): BelongsTo
+    {
+        return $this->belongsTo(Auto::class);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TripResource\Pages;
 use App\Filament\Resources\TripResource\RelationManagers;
+use App\Models\Auto;
+use App\Models\Driver;
 use App\Models\Trip;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -25,37 +27,63 @@ class TripResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('driver_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('auto_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('place_from')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('place_to')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('distance')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\DateTimePicker::make('trip_start'),
-                Forms\Components\DateTimePicker::make('trip_end'),
-                Forms\Components\TextInput::make('data'),
-            ]);
+                Forms\Components\Group::make()->schema([
+                    Forms\Components\Section::make()->schema([
+
+                        Forms\Components\Select::make('driver_id')
+                            ->label('Driver')
+                            ->options(Driver::all()->pluck('full_name', 'id'))
+                            ->required()
+                            ->searchable(),
+
+                        Forms\Components\Select::make('auto_id')
+                            ->label('Auto')
+                            ->options(Auto::all()->pluck('trip_auto', 'id'))
+                            ->required()
+                            ->searchable(),
+
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('description')
+                            ->columnSpanFull(),
+                        Forms\Components\KeyValue::make('data')
+                            ->columnSpanFull(),
+
+                    ])->columns(2),
+
+
+
+                ])->columnSpan(2),
+
+                Forms\Components\Group::make()->schema([
+                    Forms\Components\Section::make()->schema([
+
+                        Forms\Components\TextInput::make('place_from')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('place_to')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('distance')
+                            ->required()
+                            ->numeric()
+                            ->default(0),
+                        Forms\Components\DateTimePicker::make('trip_start'),
+                        Forms\Components\DateTimePicker::make('trip_end'),
+                    ])->columns(1),
+                ])->columnSpan(1)
+
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('driver_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('driver.last_name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('auto_id')
+                Tables\Columns\TextColumn::make('auto.trip_auto')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
@@ -69,10 +97,12 @@ class TripResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('trip_start')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('trip_end')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
