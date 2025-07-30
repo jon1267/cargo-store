@@ -81,20 +81,31 @@ class TripResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('driver.last_name')
+                //Tables\Columns\TextColumn::make('driver.last_name')
+                //    ->sortable(),
+                Tables\Columns\TextColumn::make('auto.type')
+                    ->label('Type')
+                    ->badge(),
+                Tables\Columns\TextColumn::make('auto.car_number')
+                    ->label('Auto Number')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('auto.trip_auto')
-                    ->numeric()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Trip Title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('place_from')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('place_to')
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('auto.image')
+                    ->height(50)
+                    ->width(70),
                 Tables\Columns\TextColumn::make('distance')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('trip_start')
                     ->dateTime()
                     ->sortable()
@@ -111,12 +122,26 @@ class TripResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('driver.first_name')
+                    ->label('Name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('driver.last_name')
+                    ->label('Last Name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
