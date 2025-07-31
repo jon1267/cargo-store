@@ -25,29 +25,49 @@ class DriverResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make([
-                    Forms\Components\TextInput::make('first_name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('last_name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('phone')
-                        ->tel()
-                        ->maxLength(20),
-                    Forms\Components\TextInput::make('email')
-                        ->email()
-                        ->maxLength(255),
-                    Forms\Components\DatePicker::make('birth_date'),
-                    Forms\Components\FileUpload::make('image')
-                        ->image()
-                        ->directory('cargo'),
-                    Forms\Components\Toggle::make('is_active')
-                        ->required()
-                        ->default(true),
-                ])->columns(2)
 
-            ]);
+                Forms\Components\Group::make()->schema([
+                    Forms\Components\Section::make([
+
+                        Forms\Components\TextInput::make('first_name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('last_name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->maxLength(20),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->maxLength(255),
+                        Forms\Components\DatePicker::make('birth_date'),
+
+                        Forms\Components\Select::make('autos')
+                            ->label('Responsible for Autos')
+                            ->relationship('autos', 'car_number')
+                            ->multiple(),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->required()
+                            ->default(true),
+
+                    ])->columns(2)
+
+                ])->columnSpan(2),
+
+                Forms\Components\Group::make()->schema([
+                    Forms\Components\Section::make('Image')->schema([
+
+                        Forms\Components\FileUpload::make('image')
+                            ->image()
+                            ->directory('cargo'),
+
+                ])
+
+                ])->columnSpan(1)
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
