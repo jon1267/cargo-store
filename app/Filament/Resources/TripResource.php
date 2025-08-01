@@ -165,4 +165,11 @@ class TripResource extends Resource
             'edit' => Pages\EditTrip::route('/{record}/edit'),
         ];
     }
+
+    public static function getWidgets(): array
+    {
+        return [
+            TripResource\Widgets\TripStats::class,
+        ];
+    }
 }

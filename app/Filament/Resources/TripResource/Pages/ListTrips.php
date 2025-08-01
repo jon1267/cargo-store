@@ -16,4 +16,13 @@ class ListTrips extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    // временно отключил. код рабочий
+    /*protected function getHeaderWidgets(): array
+    {
+        return [
+            TripResource\Widgets\TripStats::class,
+        ];
+    }*/
+
 }
