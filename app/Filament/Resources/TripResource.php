@@ -81,11 +81,16 @@ class TripResource extends Resource
     {
         return $table
             ->columns([
-                //Tables\Columns\TextColumn::make('driver.last_name')
-                //    ->sortable(),
+                //составное поле, формир.в модели. но searchable() дает ошибку нет такого поля (
+                //Tables\Columns\TextColumn::make('driver.full_name')->sortable(),
                 Tables\Columns\TextColumn::make('auto.type')
                     ->label('Type')
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (string $state): ?string => match ($state) {
+                        'bus' => 'info',
+                        'truck' => 'success',
+                        'long_vehicle' => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('auto.car_number')
                     ->label('Auto Number')
                     ->sortable(),
