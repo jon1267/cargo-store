@@ -110,6 +110,7 @@ class AutoResource extends Resource
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
+                    ->alignCenter()
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')

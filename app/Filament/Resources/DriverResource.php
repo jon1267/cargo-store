@@ -87,9 +87,11 @@ class DriverResource extends Resource
 
                 Tables\Columns\TextColumn::make('phone')
                     ->sortable()
+                    ->alignCenter()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->sortable()
+                    ->alignCenter()
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('image')
@@ -101,6 +103,7 @@ class DriverResource extends Resource
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
+                    ->alignCenter()
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
